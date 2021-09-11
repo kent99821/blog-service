@@ -42,16 +42,19 @@ module.exports = appInfo => {
     agent: false,
   };
   config.security = {
-    csrf: {
+    csrf:{
       enable: false
     },
-    domainWhiteList: ['http://127.0.0.1:7002','http://127.0.0.1:3001','http://127.0.0.1:3000','http://127.0.0.1:7001']
-  };
+    domainWhiteList:['http://127.0.0.1:3001','http://127.0.0.1:3000','http://127.0.0.1:7001']
+  }
+
   config.cors = {
-    origin: '*',
+    origin: ctx => ctx.get('origin'),
     credentials: true,  //允许Cook可以跨域
-    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS'
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
   };
+
+
   return {
     ...config,
     ...userConfig,
