@@ -26,6 +26,7 @@ class MainController extends Controller {
         let resType = await this.app.mysql.select('type');
         this.ctx.body = {data:resType,code:200};
     }
+    // 后台添加文章
     async addArticle(){
         let tempArticle = this.ctx.request.body;
         const result = await this.app.mysql.insert('article',tempArticle);
@@ -38,6 +39,16 @@ class MainController extends Controller {
             code:200
         }
     }
+    // 后台修改文章
+    async updateArticle(){
+        let tempArticle = this.ctx.request.body;
+        const result = await this.app.mysql.update('article',tempArticle);
+        const updateSucess = result.affectedRows === 1;
+        this.ctx.body = {
+            isSuccess:updateSucess
+        }
+    }
+    
     
   
   }
