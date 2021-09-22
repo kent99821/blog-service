@@ -53,7 +53,10 @@ module.exports = appInfo => {
     credentials: true,  //允许Cook可以跨域
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
   };
-
+  //jwt 鉴权密钥
+  config.jwt = {
+    secret: '998210', // token的加密的密钥,自己随便设置
+  };
 
   return {
     ...config,
