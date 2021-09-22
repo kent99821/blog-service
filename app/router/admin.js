@@ -8,5 +8,6 @@ module.exports = app =>{
     router.post('/admin/updateArticle',adminauth,controller.admin.main.updateArticle);
     router.get('/admin/getArticleList',adminauth,controller.admin.main.getArticleList);
     router.post('/admin/delArticle',adminauth,controller.admin.main.delArticle);
+    router.post('/admin/getArticleById',adminauth,controller.admin.main.getArticleById);
 
 }
