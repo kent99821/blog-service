@@ -32,7 +32,7 @@ class HomeController extends Controller {
      * @summary 获取文章详细
      * @description 用于博客展示
      * @router get /default/detailed
-     * @Request query string *id 文章id
+     * @request query string *id 文章id
      * @response 200 baseResponse 获取成功（DTO）
      */
   async getArticleById(){
@@ -67,7 +67,7 @@ class HomeController extends Controller {
      * @summary 获取类别文章
      * @description 用于博客展示
      * @router get /default/list
-     * @Request query string *id 类别id
+     * @request query string *id 类别id
      * @response 200 baseResponse 获取成功（DTO）
      */
   async getListById (){

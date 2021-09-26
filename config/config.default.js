@@ -42,32 +42,23 @@ module.exports = appInfo => {
     agent: false,
   };
   exports.swaggerdoc = {
-    dirScanner: './app/controller/default',
+    dirScanner: './app/controller',
     apiInfo: {
-      title: 'egg-blog',
-      description: '博客接口',
+      title: '博客前端展示与后台管理接口文档',
+      description: 'egg搭建的博客接口',
       version: '1.0.0',
     },
     schemes: ['http', 'https'],
     consumes: ['application/json'],
     produces: ['application/json'],
     securityDefinitions: {
-      // apikey: {
-      //   type: 'apiKey',
-      //   name: 'clientkey',
-      //   in: 'header',
-      // },
-      // oauth2: {
-      //   type: 'oauth2',
-      //   tokenUrl: 'http://petstore.swagger.io/oauth/dialog',
-      //   flow: 'password',
-      //   scopes: {
-      //     'write:access_token': 'write access_token',
-      //     'read:access_token': 'read access_token',
-      //   },
-      // },
+      APIKeyHeader: {
+        type: 'apiKey',
+        name: 'token',
+        in: 'header',
+      }
     },
-    enableSecurity: false,
+    enableSecurity: true,
     // enableValidate: true,
     routerMap: false,
     enable: true,

@@ -1,13 +1,22 @@
 'use strict';
 const Controller = require('egg').Controller;
+/**
+ * @Controller 后台管理接口
+ */
 class MainController extends Controller {
     // 登录
+ /**
+     * @summary 登录
+     * @description 用于博客后台管理
+     * @router post /admin/checkOpenId
+     * @request body loginRequest *body(DTO)
+     * @response 200 baseResponse 获取成功（DTO）
+     */
     async checkLogin() {
         let userName = this.ctx.request.body.userName;
         let password = this.ctx.request.body.password;
         const sql = "SELECT userName FROM admin_user WHERE userName ='" + userName + "' AND password = '" + password + "'";
         const result = await this.app.mysql.query(sql);
-
         if (result.length > 0) {
             // 登录成功 进行session 缓存
             const token = this.ctx.app.jwt.sign({
@@ -23,6 +32,13 @@ class MainController extends Controller {
         }
     }
     //后台文章获取分类
+     /**
+     * @summary 后台管理文章分类接口
+     * @description 用于博客后台管理
+     * @router get /admin/getTypeInfo
+     * @APIKeyHeader 
+     * @response 200 baseResponse 获取成功（DTO）
+     */
     async getTypeInfo() {
         const token = this.ctx.request.header.token;
         try {
@@ -36,6 +52,14 @@ class MainController extends Controller {
 
     }
     // 后台添加文章
+ /**
+     * @summary 后台管理添加文章接口
+     * @description 用于博客后台管理
+     * @router post /admin/addArticle
+     * @Request body addRequest *body(DTO)
+     * @APIKeyHeader 
+     * @response 200 baseResponse 获取成功（DTO）
+     */
     async addArticle() {
         const token = this.ctx.request.header.token;
         try {
@@ -55,13 +79,22 @@ class MainController extends Controller {
             this.ctx.body = { code: -200, msg: "token验证失败" }
         }
     }
-    // 后台修改文章
+    // 后台修改文章 updateRequest
+     /**
+     * @summary 后台管理修改文章接口
+     * @description 用于博客后台管理
+     * @router post /admin/updateArticle
+     * @Request body updateRequest *body(DTO)
+     * @APIKeyHeader 
+     * @response 200 baseResponse 获取成功（DTO）
+     */
     async updateArticle() {
 
         const token = this.ctx.request.header.token;
         try {
             this.ctx.app.jwt.verify(token, this.ctx.app.jwt.secret);
             let tempArticle = this.ctx.request.body;
+            console.log(tempArticle);
             const result = await this.app.mysql.update('article', tempArticle);
             const updateSucess = result.affectedRows === 1;
             this.ctx.body = {
@@ -72,9 +105,16 @@ class MainController extends Controller {
             this.ctx.body = { code: -200, msg: "token验证失败" }
         }
     }
-    //后台获取文章列表
-    async getArticleList() {
 
+    //后台获取文章列表
+       /**
+     * @summary 后台管理获取文章接口
+     * @description 用于博客后台管理
+     * @router get /admin/getArticleList
+     * @APIKeyHeader 
+     * @response 200 baseResponse 获取成功（DTO）
+     */
+    async getArticleList() {
         const token = this.ctx.request.header.token;
         try {
             this.ctx.app.jwt.verify(token, this.ctx.app.jwt.secret);
@@ -96,6 +136,14 @@ class MainController extends Controller {
 
     }
     //后台删除文章
+     /**
+     * @summary 后台管理删除文章接口
+     * @description 用于博客后台管理
+     * @router post /admin/delArticle
+     * @Request body drRequest  文章ID
+     * @APIKeyHeader 
+     * @response 200 baseResponse 获取成功（DTO）
+     */
     async delArticle() {
         const token = this.ctx.request.header.token;
         try {
@@ -110,6 +158,14 @@ class MainController extends Controller {
 
     }
     // 根据文章ID获取文章
+     /**
+     * @summary 后台管理查询文章接口
+     * @description 用于博客后台管理
+     * @router post /admin/getArticleById
+     * @Request body drRequest  文章ID
+     * @APIKeyHeader 
+     * @response 200 baseResponse 获取成功（DTO）
+     */
     async getArticleById() {
         const token = this.ctx.request.header.token;
         try {
