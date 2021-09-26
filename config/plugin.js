@@ -19,3 +19,9 @@ exports.jwt={
   enable:true,
   package:'egg-jwt'
 }
+// {app_root}/config/plugin.js
+exports.swaggerdoc = {
+  enable: true,
+  package: 'egg-swagger-doc-feat',
+};
+
