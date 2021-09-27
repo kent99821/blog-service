@@ -51,6 +51,105 @@ class MainController extends Controller {
         }
 
     }
+    //后台增加类别
+     /**
+     * @summary 后台管理添加类别接口
+     * @description 用于博客后台管理
+     * @router post /admin/addTypeInfo
+     * @Request body typeRequest *body(DTO)
+     * @APIKeyHeader 
+     * @response 200 baseResponse 获取成功（DTO）
+     */
+    async addTypeInfo(){
+        const token = this.ctx.request.header.token;
+        try {
+            this.ctx.app.jwt.verify(token, this.ctx.app.jwt.secret);
+            let tempType = this.ctx.request.body;
+            const result = await this.app.mysql.insert('type', tempType);
+            const insertSucess = result.affectedRows === 1;
+            const insertId = result.insertId;
+            this.ctx.body = {
+                isSuccess: insertSucess,
+                insertId: insertId,
+                code: 200
+            }
+
+        } catch (error) {
+            this.ctx.body = { code: -200, msg: "token验证失败" }
+        }
+    }
+    // 后台根据ID获取文章分类
+       /**
+     * @summary 后台管理查询类别接口
+     * @description 用于博客后台管理
+     * @router post /admin/getTypeInfoById
+     * @Request body typeRequest  *body(DTO)
+     * @APIKeyHeader 
+     * @response 200 baseResponse 获取成功（DTO）
+     */
+    async getTypeInfoById (){
+        const token = this.ctx.request.header.token;
+        try {
+            this.ctx.app.jwt.verify(token, this.ctx.app.jwt.secret);
+            let id = this.ctx.request.body.id;
+            let sql = 'SELECT * FROM type WHERE id=' + id;
+            const result = await this.app.mysql.query(sql);
+            this.ctx.body = { data: result };
+
+        } catch (error) {
+            this.ctx.body = { code: -200, msg: "token验证失败" }
+        }
+    }
+     // 后台修改文章分类
+       /**
+     * @summary 后台管理修改类别接口
+     * @description 用于博客后台管理
+     * @router post /admin/updateTypeInfo
+     * @Request body updateTypeRequest  *body(DTO)
+     * @APIKeyHeader 
+     * @response 200 baseResponse 获取成功（DTO）
+     */
+        async updateTypeInfo(){
+            const token = this.ctx.request.header.token;
+            try {
+                this.ctx.app.jwt.verify(token, this.ctx.app.jwt.secret);
+                let tempType = this.ctx.request.body;
+                const result = await this.app.mysql.update('type', tempType);
+                const updateSucess = result.affectedRows === 1;
+                this.ctx.body = {
+                    isSuccess: updateSucess
+                }
+            } catch (error) {
+                this.ctx.body = { code: -200, msg: "token验证失败" }
+            }
+        }
+    //后台删除类别
+     /**
+     * @summary 后台管理删除类别接口
+     * @description 用于博客后台管理
+     * @router post /admin/delTypeInfo
+     * @Request body typeIdRequest  文章ID
+     * @APIKeyHeader 
+     * @response 200 baseResponse 获取成功（DTO）
+     */
+    async delTypeInfo() {
+        const token = this.ctx.request.header.token;
+        try {
+            this.ctx.app.jwt.verify(token, this.ctx.app.jwt.secret);
+            let id = this.ctx.request.body.id;
+            const res = await this.app.mysql.delete('type', { 'id': id });
+            this.ctx.body = { data: res };
+
+        } catch (error) {
+            this.ctx.body = { code: -200, msg: "token验证失败" }
+        }
+
+    }
+
+
+
+
+
     // 后台添加文章
  /**
      * @summary 后台管理添加文章接口
@@ -79,7 +178,7 @@ class MainController extends Controller {
             this.ctx.body = { code: -200, msg: "token验证失败" }
         }
     }
-    // 后台修改文章 updateRequest
+    // 后台修改文章 
      /**
      * @summary 后台管理修改文章接口
      * @description 用于博客后台管理
@@ -108,7 +207,7 @@ class MainController extends Controller {
 
     //后台获取文章列表
        /**
-     * @summary 后台管理获取文章接口
+     * @summary 后台管理获取文章列表接口
      * @description 用于博客后台管理
      * @router get /admin/getArticleList
      * @APIKeyHeader 

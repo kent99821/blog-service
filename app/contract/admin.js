@@ -89,4 +89,46 @@ module.exports = {
             example: 1,
         }
     },
+    typeRequest:{
+        typeName:{
+            type:'string',
+            require:true,
+            description:'类别名称',
+            example:'算法学习'
+        },
+        color:{
+            type:'string',
+            require:true,
+            description:'类别颜色',
+            example:'#2db7f5'
+        }
+    },
+    typeIdRequest:{
+        id: {
+            type: 'integer',
+            require: true,
+            description: '类别ID',
+            example: 1,
+        }
+    },
+    updateTypeRequest:{
+        id: {
+            type: 'integer',
+            require: true,
+            description: '类别ID',
+            example: 1,
+        },
+        typeName:{
+            type:'string',
+            require:true,
+            description:'类别名称',
+            example:'算法学习'
+        },
+        color:{
+            type:'string',
+            require:true,
+            description:'类别颜色',
+            example:'#2db7f5'
+        }
+    },
 }
